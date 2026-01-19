@@ -19,4 +19,8 @@ interface Env {
   XAI_API_KEY: string;
   PERPLEXITY_API_KEY: string;
   AWS_BEDROCK_CONFIG: string;
+  AWS_BEDROCK_REGION: string;
+  AWS_BEDROCK_ACCESS_KEY_ID: string;
+  AWS_BEDROCK_SECRET_ACCESS_KEY: string;
+  AWS_BEDROCK_SESSION_TOKEN: string;
 }
