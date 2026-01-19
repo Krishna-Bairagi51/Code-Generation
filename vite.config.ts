@@ -19,6 +19,11 @@ export default defineConfig((config) => {
     build: {
       target: 'esnext',
     },
+    server: {
+      allowedHosts: process.env.RUNNING_IN_DOCKER === 'true'
+        ? true  // Allow all hosts in Docker
+        : ['codegen.kuberha.ai', 'localhost'],
+    },
     plugins: [
       nodePolyfills({
         include: ['buffer', 'process', 'util', 'stream'],

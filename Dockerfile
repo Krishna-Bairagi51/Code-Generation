@@ -52,7 +52,8 @@ ARG DEFAULT_NUM_CTX
 ENV WRANGLER_SEND_METRICS=false \
     VITE_LOG_LEVEL=${VITE_LOG_LEVEL} \
     DEFAULT_NUM_CTX=${DEFAULT_NUM_CTX} \
-    RUNNING_IN_DOCKER=true
+    RUNNING_IN_DOCKER=true \
+    VITE_ALLOWED_HOSTS=all
 
 # Note: API keys should be provided at runtime via docker run -e or docker-compose
 # Example: docker run -e OPENAI_API_KEY=your_key_here ...
@@ -66,6 +67,7 @@ COPY --from=prod-deps /app/build /app/build
 COPY --from=prod-deps /app/node_modules /app/node_modules
 COPY --from=prod-deps /app/package.json /app/package.json
 COPY --from=prod-deps /app/bindings.sh /app/bindings.sh
+COPY --from=prod-deps /app/wrangler.toml /app/wrangler.toml
 
 # Pre-configure wrangler to disable metrics
 RUN mkdir -p /root/.config/.wrangler && \
