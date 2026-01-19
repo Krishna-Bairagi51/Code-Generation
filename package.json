@@ -21,7 +21,7 @@
     "start:windows": "wrangler pages dev ./build/client --local-protocol http",
     "start:unix": "bindings=$(./bindings.sh) && wrangler pages dev ./build/client $bindings --local-protocol http",
     "start": "node -e \"const { spawn } = require('child_process'); const isWindows = process.platform === 'win32'; const cmd = isWindows ? 'npm run start:windows' : 'npm run start:unix'; const child = spawn(cmd, { shell: true, stdio: 'inherit' }); child.on('exit', code => process.exit(code));\"",
-    "dockerstart": "bindings=$(./bindings.sh) && wrangler pages dev ./build/client $bindings --ip 0.0.0.0 --port 5173 --no-show-interactive-dev-session --host codegen.kuberha.ai --local-protocol http",
+    "dockerstart": "bindings=$(./bindings.sh) && wrangler pages dev ./build/client $bindings --ip 0.0.0.0 --port 5173 --no-show-interactive-dev-session --local-protocol http",
     "dockerrun": "docker run -it -d --name kuberha-ai-live -p 5173:5173 --env-file .env.local kuberha-ai",
     "dockerbuild:prod": "docker build -t kuberha-ai:production -t kuberha-ai:latest --target kuberha-ai-prod  production .",
     "dockerbuild": "docker build -t kuberha-ai:development -t kuberha-ai:latest --target development .",
