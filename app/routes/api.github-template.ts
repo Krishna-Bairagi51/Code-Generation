@@ -124,7 +124,7 @@ async function fetchRepoContentsCloudflare(repo: string, githubToken?: string) {
 async function fetchRepoContentsZip(repo: string, githubToken?: string) {
   const baseUrl = 'https://api.github.com';
 
-  // Get the latest release
+  // First try to get the latest release
   const releaseResponse = await fetch(`${baseUrl}/repos/${repo}/releases/latest`, {
     headers: {
       Accept: 'application/vnd.github.v3+json',
@@ -133,12 +133,32 @@ async function fetchRepoContentsZip(repo: string, githubToken?: string) {
     },
   });
 
-  if (!releaseResponse.ok) {
+  let zipballUrl: string;
+
+  if (releaseResponse.ok) {
+    // Use release zipball if available
+    const releaseData = (await releaseResponse.json()) as any;
+    zipballUrl = releaseData.zipball_url;
+  } else if (releaseResponse.status === 404) {
+    // No releases - use default branch zipball instead
+    const repoResponse = await fetch(`${baseUrl}/repos/${repo}`, {
+      headers: {
+        Accept: 'application/vnd.github.v3+json',
+        'User-Agent': 'kuberha.ai-app',
+        ...(githubToken ? { Authorization: `Bearer ${githubToken}` } : {}),
+      },
+    });
+
+    if (!repoResponse.ok) {
+      throw new Error(`GitHub API error: ${repoResponse.status} - ${repoResponse.statusText}`);
+    }
+
+    const repoData = (await repoResponse.json()) as any;
+    const defaultBranch = repoData.default_branch || 'main';
+    zipballUrl = `${baseUrl}/repos/${repo}/zipball/${defaultBranch}`;
+  } else {
     throw new Error(`GitHub API error: ${releaseResponse.status} - ${releaseResponse.statusText}`);
   }
-
-  const releaseData = (await releaseResponse.json()) as any;
-  const zipballUrl = releaseData.zipball_url;
 
   // Fetch the zipball
   const zipResponse = await fetch(zipballUrl, {
