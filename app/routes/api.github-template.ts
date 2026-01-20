@@ -234,6 +234,16 @@ export async function loader({ request, context }: { request: Request; context: 
     const githubToken =
       context?.cloudflare?.env?.GITHUB_TOKEN || process.env.GITHUB_TOKEN || process.env.VITE_GITHUB_ACCESS_TOKEN;
 
+    // Debug logging
+    console.log('=== GitHub Template Fetch Debug ===');
+    console.log('Repo:', repo);
+    console.log('Has GITHUB_TOKEN:', !!githubToken);
+    console.log(
+      'Token source:',
+      githubToken ? (context?.cloudflare?.env?.GITHUB_TOKEN ? 'cloudflare' : 'process.env') : 'none',
+    );
+    console.log('Is Cloudflare env:', isCloudflareEnvironment(context));
+
     let fileList;
 
     if (isCloudflareEnvironment(context)) {
