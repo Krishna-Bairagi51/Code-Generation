@@ -219,7 +219,13 @@ export async function loader({ request, context }: { request: Request; context: 
     if (isCloudflareEnvironment(context)) {
       fileList = await fetchRepoContentsCloudflare(repo, githubToken);
     } else {
-      fileList = await fetchRepoContentsZip(repo, githubToken);
+      // Try zipball method first, fall back to Contents API if it fails (e.g., rate limit)
+      try {
+        fileList = await fetchRepoContentsZip(repo, githubToken);
+      } catch (zipError) {
+        console.warn('Zipball method failed, falling back to Contents API:', zipError);
+        fileList = await fetchRepoContentsCloudflare(repo, githubToken);
+      }
     }
 
     // Filter out .git files for both methods
@@ -231,12 +237,19 @@ export async function loader({ request, context }: { request: Request; context: 
     console.error('Repository:', repo);
     console.error('Error details:', error instanceof Error ? error.message : String(error));
 
+    // Check if it's a rate limit error
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    const isRateLimit = errorMessage.includes('403') || errorMessage.toLowerCase().includes('rate limit');
+
     return json(
       {
-        error: 'Failed to fetch template files',
-        details: error instanceof Error ? error.message : String(error),
+        error: isRateLimit
+          ? 'GitHub API rate limit exceeded. Please try again later or add a GITHUB_TOKEN.'
+          : 'Failed to fetch template files',
+        details: errorMessage,
+        isRateLimit,
       },
-      { status: 500 },
+      { status: isRateLimit ? 429 : 500 },
     );
   }
 }

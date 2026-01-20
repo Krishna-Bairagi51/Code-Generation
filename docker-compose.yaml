@@ -19,6 +19,8 @@ services:
       # Active Providers
       - GOOGLE_GENERATIVE_AI_API_KEY=${GOOGLE_GENERATIVE_AI_API_KEY}
       - AWS_BEDROCK_CONFIG=${AWS_BEDROCK_CONFIG}
+      # GitHub Token (for template fetching - prevents rate limiting)
+      - GITHUB_TOKEN=${GITHUB_TOKEN}
       # LangGraph Agent
       - ENABLE_LANGGRAPH_AGENT=${ENABLE_LANGGRAPH_AGENT:-true}
       # Core Settings
@@ -53,6 +55,8 @@ services:
       # Active Providers
       - GOOGLE_GENERATIVE_AI_API_KEY=${GOOGLE_GENERATIVE_AI_API_KEY}
       - AWS_BEDROCK_CONFIG=${AWS_BEDROCK_CONFIG}
+      # GitHub Token (for template fetching - prevents rate limiting)
+      - GITHUB_TOKEN=${GITHUB_TOKEN}
       # LangGraph Agent
       - ENABLE_LANGGRAPH_AGENT=${ENABLE_LANGGRAPH_AGENT:-true}
       # Core Settings
