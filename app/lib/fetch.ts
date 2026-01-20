@@ -1,3 +1,5 @@
+import type { RequestInit as NodeFetchRequestInit } from 'node-fetch';
+
 type CommonRequest = Omit<RequestInit, 'body'> & { body?: URLSearchParams };
 
 export async function request(url: string, init?: CommonRequest) {
@@ -7,7 +9,7 @@ export async function request(url: string, init?: CommonRequest) {
 
     const agent = url.startsWith('https') ? new https.Agent({ rejectUnauthorized: false }) : undefined;
 
-    return nodeFetch.default(url, { ...init, agent });
+    return nodeFetch.default(url, { ...init, agent } as NodeFetchRequestInit);
   }
 
   return fetch(url, init);
