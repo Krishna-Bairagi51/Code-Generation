@@ -1,6 +1,14 @@
 interface Env {
-  RUNNING_IN_DOCKER: Settings;
-  DEFAULT_NUM_CTX: Settings;
+  // Core Settings
+  RUNNING_IN_DOCKER: string;
+  DEFAULT_NUM_CTX: string;
+  ENABLE_LANGGRAPH_AGENT: string;
+
+  // Active Providers
+  GOOGLE_GENERATIVE_AI_API_KEY: string;
+  AWS_BEDROCK_CONFIG: string;
+
+  // Other Providers (kept for compatibility)
   ANTHROPIC_API_KEY: string;
   OPENAI_API_KEY: string;
   GROQ_API_KEY: string;
@@ -14,13 +22,12 @@ interface Env {
   TOGETHER_API_BASE_URL: string;
   DEEPSEEK_API_KEY: string;
   LMSTUDIO_API_BASE_URL: string;
-  GOOGLE_GENERATIVE_AI_API_KEY: string;
   MISTRAL_API_KEY: string;
   XAI_API_KEY: string;
   PERPLEXITY_API_KEY: string;
-  AWS_BEDROCK_CONFIG: string;
-  AWS_BEDROCK_REGION: string;
-  AWS_BEDROCK_ACCESS_KEY_ID: string;
-  AWS_BEDROCK_SECRET_ACCESS_KEY: string;
-  AWS_BEDROCK_SESSION_TOKEN: string;
+  COHERE_API_KEY: string;
+  GITHUB_TOKEN: string;
+  VITE_GITHUB_ACCESS_TOKEN: string;
+  HYPERBOLIC_API_KEY: string;
+  MOONSHOT_API_KEY: string;
 }

@@ -1,0 +1,20 @@
+[build]
+  command = "pnpm run build"
+  publish = "build/client"
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
+[[redirects]]
+  from = "/*"
+  to = "/.netlify/functions/server"
+  status = 200
+
+[dev]
+  command = "pnpm run dev"
+  port = 5173
+
+# Environment variables (set in Netlify Dashboard for security)
+# AWS_BEDROCK_CONFIG, GOOGLE_GENERATIVE_AI_API_KEY, etc.
+

@@ -1,8 +1,17 @@
-// Only Google and AWS Bedrock providers are enabled
+/*
+ * LLM Provider Registry
+ * Only enabled providers: Google Gemini and AWS Bedrock
+ * To add more providers, uncomment the imports and exports below
+ */
+
+// Active Providers
+import GoogleProvider from './providers/google';
+import AmazonBedrockProvider from './providers/amazon-bedrock';
+
+// Disabled Providers (uncomment to enable)
 // import AnthropicProvider from './providers/anthropic';
 // import CohereProvider from './providers/cohere';
 // import DeepseekProvider from './providers/deepseek';
-import GoogleProvider from './providers/google';
 // import GroqProvider from './providers/groq';
 // import HuggingFaceProvider from './providers/huggingface';
 // import LMStudioProvider from './providers/lmstudio';
@@ -15,15 +24,18 @@ import GoogleProvider from './providers/google';
 // import TogetherProvider from './providers/together';
 // import XAIProvider from './providers/xai';
 // import HyperbolicProvider from './providers/hyperbolic';
-import AmazonBedrockProvider from './providers/amazon-bedrock';
 // import GithubProvider from './providers/github';
 // import MoonshotProvider from './providers/moonshot';
 
 export {
+  // Active Providers
+  GoogleProvider,
+  AmazonBedrockProvider,
+
+  // Disabled Providers (uncomment to enable)
   // AnthropicProvider,
   // CohereProvider,
   // DeepseekProvider,
-  GoogleProvider,
   // GroqProvider,
   // HuggingFaceProvider,
   // HyperbolicProvider,
@@ -37,6 +49,5 @@ export {
   // XAIProvider,
   // TogetherProvider,
   // LMStudioProvider,
-  AmazonBedrockProvider,
   // GithubProvider,
 };

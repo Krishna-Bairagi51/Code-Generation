@@ -8,31 +8,23 @@ services:
     ports:
       - '5173:5173'
     env_file:
-      - '.env'
-      - '.env.local'
+      - path: '.env'
+        required: false
+      - path: '.env.local'
+        required: false
     environment:
       - NODE_ENV=production
       - COMPOSE_PROFILES=production
-      # No strictly needed but serving as hints for Coolify
       - PORT=5173
-      - GROQ_API_KEY=${GROQ_API_KEY}
-      - HuggingFace_API_KEY=${HuggingFace_API_KEY}
-      - OPENAI_API_KEY=${OPENAI_API_KEY}
-      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
-      - OPEN_ROUTER_API_KEY=${OPEN_ROUTER_API_KEY}
+      # Active Providers
       - GOOGLE_GENERATIVE_AI_API_KEY=${GOOGLE_GENERATIVE_AI_API_KEY}
-      - OLLAMA_API_BASE_URL=${OLLAMA_API_BASE_URL}
-      - XAI_API_KEY=${XAI_API_KEY}
-      - TOGETHER_API_KEY=${TOGETHER_API_KEY}
-      - TOGETHER_API_BASE_URL=${TOGETHER_API_BASE_URL}
       - AWS_BEDROCK_CONFIG=${AWS_BEDROCK_CONFIG}
-      - AWS_BEDROCK_REGION=${AWS_BEDROCK_REGION}
-      - AWS_BEDROCK_ACCESS_KEY_ID=${AWS_BEDROCK_ACCESS_KEY_ID}
-      - AWS_BEDROCK_SECRET_ACCESS_KEY=${AWS_BEDROCK_SECRET_ACCESS_KEY}
+      # LangGraph Agent
+      - ENABLE_LANGGRAPH_AGENT=${ENABLE_LANGGRAPH_AGENT:-true}
+      # Core Settings
       - VITE_LOG_LEVEL=${VITE_LOG_LEVEL:-debug}
       - DEFAULT_NUM_CTX=${DEFAULT_NUM_CTX:-32768}
       - RUNNING_IN_DOCKER=true
-      - VITE_ALLOWED_HOSTS=all
     extra_hosts:
       - 'host.docker.internal:host-gateway'
     command: pnpm run dockerstart
@@ -46,8 +38,10 @@ services:
       dockerfile: Dockerfile
       target: development
     env_file:
-      - '.env'
-      - '.env.local'
+      - path: '.env'
+        required: false
+      - path: '.env.local'
+        required: false
     environment:
       - NODE_ENV=development
       - VITE_HMR_PROTOCOL=ws
@@ -56,17 +50,12 @@ services:
       - CHOKIDAR_USEPOLLING=true
       - WATCHPACK_POLLING=true
       - PORT=5173
-      - GROQ_API_KEY=${GROQ_API_KEY}
-      - HuggingFace_API_KEY=${HuggingFace_API_KEY}
-      - OPENAI_API_KEY=${OPENAI_API_KEY}
-      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
-      - OPEN_ROUTER_API_KEY=${OPEN_ROUTER_API_KEY}
-      - XAI_API_KEY=${XAI_API_KEY}
+      # Active Providers
       - GOOGLE_GENERATIVE_AI_API_KEY=${GOOGLE_GENERATIVE_AI_API_KEY}
-      - OLLAMA_API_BASE_URL=${OLLAMA_API_BASE_URL}
-      - TOGETHER_API_KEY=${TOGETHER_API_KEY}
-      - TOGETHER_API_BASE_URL=${TOGETHER_API_BASE_URL}
       - AWS_BEDROCK_CONFIG=${AWS_BEDROCK_CONFIG}
+      # LangGraph Agent
+      - ENABLE_LANGGRAPH_AGENT=${ENABLE_LANGGRAPH_AGENT:-true}
+      # Core Settings
       - VITE_LOG_LEVEL=${VITE_LOG_LEVEL:-debug}
       - DEFAULT_NUM_CTX=${DEFAULT_NUM_CTX:-32768}
       - RUNNING_IN_DOCKER=true
