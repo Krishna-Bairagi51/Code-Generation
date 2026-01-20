@@ -114,7 +114,11 @@ async function llmCallAction({ context, request }: ActionFunctionArgs) {
       return new Response(result.textStream, {
         status: 200,
         headers: {
-          'Content-Type': 'text/plain; charset=utf-8',
+          'Content-Type': 'text/event-stream; charset=utf-8',
+          Connection: 'keep-alive',
+          'Cache-Control': 'no-cache, no-transform',
+          'X-Accel-Buffering': 'no',
+          'X-Content-Type-Options': 'nosniff',
         },
       });
     } catch (error: unknown) {

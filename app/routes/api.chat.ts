@@ -423,8 +423,12 @@ async function chatAction({ context, request }: ActionFunctionArgs) {
       headers: {
         'Content-Type': 'text/event-stream; charset=utf-8',
         Connection: 'keep-alive',
-        'Cache-Control': 'no-cache',
-        'Text-Encoding': 'chunked',
+        'Cache-Control': 'no-cache, no-transform',
+        'Transfer-Encoding': 'chunked',
+
+        // Disable buffering for nginx and other proxies
+        'X-Accel-Buffering': 'no',
+        'X-Content-Type-Options': 'nosniff',
       },
     });
   } catch (error: any) {
